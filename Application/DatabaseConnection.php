@@ -5,22 +5,28 @@
  * Time: 4:51 PM
  */
 
-class DatabaseConnection {
+class DatabaseConnection
+{
 
     private $dbUser;
     private $dbPassword;
     private $dbName;
     private $dbHost;
+    private $pdo;
 
-    public function DatabaseConnection() {
+    public function __construct()
+    {
         $this->dbUser = 'root';
         $this->dbPassword = '';
-        $this->dbName = 'stdinfo';
+        $this->dbName = 'lab';
         $this->dbHost = 'localhost';
+        $this->pdo = new PDO("mysql:host=$this->dbHost;dbname=$this->dbName", $this->dbUser, $this->dbPassword);
+        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    public function GetDB() {
-        $db = new ezSQL_mysql($this->dbUser, $this->dbPassword, $this->dbName, $this->dbHost);
-        return $db;
+    public function GetDB()
+    {
+        return $this->pdo;
     }
 }
+
